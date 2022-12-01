@@ -16,8 +16,8 @@ func (entourage *ElvenEntourage) GetTop(n uint64) []Elf {
 	elves := make([]Elf, len(entourage.Elves))
 	copy(elves, entourage.Elves)
 
-	sort.Slice(elves, func(i, j int) bool {
-		return entourage.Elves[i].TotalCalories > entourage.Elves[j].TotalCalories
+	sort.SliceStable(elves, func(i, j int) bool {
+		return elves[i].TotalCalories > elves[j].TotalCalories
 	})
 
 	return elves[:n]
