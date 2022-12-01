@@ -16,4 +16,14 @@ func main() {
 
 	groups := day1.CalorieGroups(string(bytes))
 	fmt.Println(day1.MaxCalories(groups))
+	maxN := day1.MaxN(groups, 3)
+	fmt.Println(sum(maxN...))
+}
+
+func sum(numbs ...int) int {
+	result := 0
+	for _, numb := range numbs {
+		result += numb
+	}
+	return result
 }

@@ -1,6 +1,7 @@
 package day1
 
 import (
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -26,7 +27,7 @@ func CalorieGroups(input string) [][]int {
 	return groups
 }
 
-func caloriesForGroup(group []int) int {
+func CaloriesForGroup(group []int) int {
 	result := 0
 	for _, v := range group {
 		result += v
@@ -37,9 +38,18 @@ func caloriesForGroup(group []int) int {
 func MaxCalories(groups [][]int) int {
 	max := 0
 	for _, group := range groups {
-		if groupCalories := caloriesForGroup(group); groupCalories > max {
+		if groupCalories := CaloriesForGroup(group); groupCalories > max {
 			max = groupCalories
 		}
 	}
 	return max
+}
+
+func MaxN(groups [][]int, n int) []int {
+	var groupSums []int
+	for _, g := range groups {
+		groupSums = append(groupSums, CaloriesForGroup(g))
+	}
+	sort.Ints(groupSums)
+	return groupSums[len(groupSums)-n:]
 }
