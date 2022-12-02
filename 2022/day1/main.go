@@ -2,32 +2,30 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"day1/day1"
+	_ "embed"
 	"fmt"
 	"log"
-	"os"
 )
 
+//go:embed input
+var input []byte
+
 func main() {
-	const filename = "day1.input"
 	entourage := day1.ElvenEntourage{
 		Elves: []day1.Elf{},
 	}
-	file, err := os.Open(filename)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
 
 	id := uint64(0)
 	e := day1.Elf{
 		Identity:      id,
 		TotalCalories: 0,
 	}
-	scanner := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(bytes.NewReader(input))
 	for scanner.Scan() {
-		if l := scanner.Text(); l != "" {
-			e.AddSnack(l)
+		if line := scanner.Text(); line != "" {
+			e.AddSnack(line)
 		} else {
 			entourage.AddElf(e)
 			id += 1
