@@ -5,7 +5,8 @@ import (
 	"bytes"
 	_ "embed"
 	"fmt"
-	"strings"
+
+	"github.com/matah/advent-of-code/day3/backpack"
 )
 
 //go:embed input
@@ -13,34 +14,28 @@ var input []byte
 
 func main() {
 	scanner := bufio.NewScanner(bytes.NewReader(input))
-	total := 0
+	var (
+		part1Prio, part2Prio, idx int
+		backpacks                 [3]string
+	)
+
 	for scanner.Scan() {
 		line := scanner.Text()
 
 		half := len(line) / 2
 		firstCompartment := line[:half]
 		secondCompartment := line[half:]
-		duplicate := findDuplicate(firstCompartment, secondCompartment)
-		total += priority(duplicate)
-	}
+		duplicate := backpack.FindDuplicate(firstCompartment, secondCompartment)
+		part1Prio += backpack.Priority(duplicate)
 
-	fmt.Println(total)
-}
-
-func findDuplicate(s1 string, s2 string) rune {
-	for _, c := range s1 {
-		if strings.ContainsRune(s2, c) {
-			return c
+		backpacks[idx%3] = line
+		if idx%3 == 2 {
+			// reset stuff
+			part2Prio += backpack.Priority(backpack.FindDuplicate(backpacks[:]...))
 		}
+		idx++
 	}
 
-	panic("No duplicate found")
-}
-
-func priority(c rune) int {
-	if c > 'a' {
-		return int(c-'a') + 1
-	}
-
-	return int(c-'A') + 27
+	fmt.Println(part1Prio)
+	fmt.Println(part2Prio)
 }
