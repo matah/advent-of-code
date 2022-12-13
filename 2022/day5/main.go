@@ -17,6 +17,7 @@ func main() {
 	)
 
 	scanner := bufio.NewScanner(bytes.NewReader(input))
+
 	for scanner.Scan() {
 		line := scanner.Text()
 
